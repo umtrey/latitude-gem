@@ -1,5 +1,6 @@
 require "latitude/version"
 require "latitude/vincenty"
+require "latitude/coordinate"
 
 module Latitude
   extend self
