@@ -11,4 +11,14 @@ module Latitude
     return m_distance / 1000.0
   end
 
+  def initial_bearing(start_latitude, start_longitude, end_latitude, end_longitude)
+    Vincenty.initial_bearing(start_latitude, start_longitude,
+                            end_latitude, end_longitude)
+  end
+
+  def final_bearing(start_latitude, start_longitude, end_latitude, end_longitude)
+    Vincenty.final_bearing(start_latitude, start_longitude,
+                          end_latitude, end_longitude)
+  end
+
 end

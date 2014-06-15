@@ -11,6 +11,23 @@ module Vincenty
   def great_circle_distance(start_lat, start_long, end_lat, end_long)
     return 0 if (start_lat == end_lat) && (start_long == end_long)
 
+    solution_set(start_lat, start_long, end_lat, end_long)[:distance]
+  end
+
+  def initial_bearing(start_lat, start_long, end_lat, end_long)
+    return nil if (start_lat == end_lat) && (start_long == end_long)
+
+    solution_set(start_lat, start_long, end_lat, end_long)[:initial_bearing]
+  end
+
+  def final_bearing(start_lat, start_long, end_lat, end_long)
+    return nil if (start_lat == end_lat) && (start_long == end_long)
+
+    solution_set(start_lat, start_long, end_lat, end_long)[:final_bearing]
+  end
+
+private
+  def solution_set(start_lat, start_long, end_lat, end_long)
     a = WGS84_A
     b = WGS84_B
     f = WGS84_F
@@ -20,6 +37,12 @@ module Vincenty
     phi_2 = to_radians(end_lat)
     lambda_2 = to_radians(end_long)
 
+    iterative_solver(phi_1, lambda_1,
+                     phi_2, lambda_2,
+                     a, b, f)
+  end
+
+  def iterative_solver(phi_1, lambda_1, phi_2, lambda_2, a, b, f)
     l = lambda_2 - lambda_1
     sin_u1, cos_u1, tan_u1 = get_trig_trio(phi_1, f)
     sin_u2, cos_u2, tan_u2 = get_trig_trio(phi_2, f)
@@ -60,18 +83,24 @@ module Vincenty
     delta_sigma = big_b * sin_sigma * (cos_2sigma_m + big_b/4 * (cos_sigma * (-1 + 2*(cos_2sigma_m**2)) -
                     big_b/6 * cos_2sigma_m * (-3 + 4*(sin_sigma**2)) * (-3 + 4*(cos_sigma**2))))
 
-    s = (b * big_a * (sigma - delta_sigma)).round(3) # 1mm precision
+    distance = (b * big_a * (sigma - delta_sigma)).round(3) # 1mm precision
+    fwd_az = Math.atan2(cos_u2 * sin_lam, (cos_u1 * sin_u2) - (sin_u1 * cos_u2 * cos_lam))
+    rev_az = Math.atan2(cos_u1 * sin_lam, (cos_u1 * sin_u2 * cos_lam) - (sin_u1 * cos_u2))
 
     # var fwdAz = Math.atan2(cosU2*sinλ,  cosU1*sinU2-sinU1*cosU2*cosλ);
     # var revAz = Math.atan2(cosU1*sinλ, -sinU1*cosU2+cosU1*sinU2*cosλ);
     # return { distance: s, initialBearing: fwdAz.toDegrees(), finalBearing: revAz.toDegrees() };
-
-    return s
+    { :distance => distance,
+      :initial_bearing => to_degrees(fwd_az),
+      :final_bearing => to_degrees(rev_az) }
   end
 
-private
   def to_radians(degrees)
     degrees * Math::PI / 180
+  end
+
+  def to_degrees(rads)
+    rads * 180 / Math::PI
   end
 
   def get_trig_trio(rads, f)
