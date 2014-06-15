@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["dfsiii@gmail.com"]
   spec.summary       = %q{Calculates distances between two geographic coordinates.}
   spec.description   = %q{Uses the great-circle distance calculation to determine the distance between two locations with just latitudes and longitudes.}
-  spec.homepage      = "http://www.treyspringer.com"
+  spec.homepage      = "https://github.com/umtrey/latitude-gem"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
