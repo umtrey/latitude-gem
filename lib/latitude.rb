@@ -1,3 +1,5 @@
+#!/bin/env ruby
+# encoding: utf-8
 require "latitude/version"
 require "latitude/vincenty"
 require "latitude/coordinate"
