@@ -44,8 +44,8 @@ private
 
   def iterative_solver(phi_1, lambda_1, phi_2, lambda_2, a, b, f)
     l = lambda_2 - lambda_1
-    sin_u1, cos_u1, tan_u1 = get_trig_trio(phi_1, f)
-    sin_u2, cos_u2, tan_u2 = get_trig_trio(phi_2, f)
+    sin_u1, cos_u1 = get_trig_trio(phi_1, f)
+    sin_u2, cos_u2 = get_trig_trio(phi_2, f)
 
     lam = l
     iterations = 0
