@@ -7,8 +7,9 @@ describe Latitude do
     end
 
     it "should use the vincenty formulae to calculate the great-circle distance between two coordinates" do
-      expect(Latitude.great_circle_distance(50, -5, 58, -3)).to be_within(0.1).of(899.937706)
-      expect(Latitude.great_circle_distance(50, -5, -58, 3)).to be_within(0.1).of(11994.498924)
+      expect(Latitude.great_circle_distance(50, -5, 58, -3)).to be_within(0.001).of(899.937706)
+      expect(Latitude.great_circle_distance(50, -5, -58, 3)).to be_within(0.001).of(11994.498924)
+      expect(Latitude.great_circle_distance(10, 10, 50, 50)).to be_within(0.001).of(5758.331041)
     end
   end
 end
