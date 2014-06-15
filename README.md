@@ -1,7 +1,13 @@
 # Latitude
 
-Latitude is a simple gem for calculating distances between two
+[![Build
+Status](https://travis-ci.org/umtrey/latitude-gem.svg?branch=master)](https://travis-ci.org/umtrey/latitude-gem)
+
+Latitude is a simple gem for calculating distances and headings between two
 geographic locations, using great circle math.
+
+For now, this gem uses the WGS84 measurements for the shape of the
+earth.
 
 ## Installation
 
@@ -19,7 +25,21 @@ Or install it yourself as:
 
 ## Usage
 
-Nothing to use yet, it hasn't been written!
+Note that coordinates are positive for N/E and negative for S/W.
+
+`Latitude.great_circle_distance(start_latitude, start_longitude, end_latitude,
+end_longitude)`
+
+Calculates the great circle distance in kilometers between two
+coordinates.
+
+```
+Latitude.initial_heading(start_latitude, start_longitude, end_latitude, end_longitude)
+Latitude.final_heading(start_latitude, start_longitude, end_latitude, end_longitude)
+```
+
+Calculates the initial and final headings if traveling between two
+points using a great circle path.
 
 ## Contributing
 
