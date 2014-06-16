@@ -27,8 +27,35 @@ Or install it yourself as:
 
 Note that coordinates are positive for N/E and negative for S/W.
 
-`Latitude.great_circle_distance(start_latitude, start_longitude, end_latitude,
-end_longitude)`
+### Using Coordinate objects
+
+A `Coordinate` takes in a `:latitude` and `:longitude` in either decimal
+or DMS format. For example,
+
+```
+coordinate = Coordinate.new(:latitude => "10 S",
+                            :longitude => "9° 30′ E")
+coordinate.latitdue     #=> -10.0
+coordinate.longitude    #=> 9.5
+```
+
+`Coordinate`s have multiple helper methods:
+
+`#great_circle_distance_to(final_coordinate)` calculates the great
+circle distance between coordinates.
+
+`#initial_bearing_to(final_coordinate)` calculates the initial bearing
+if traveling along a great circle route to another coordinate.
+
+`#final_bearing_to(initial_coordinate)` calculates the final bearing if
+traveling along a great circle route from another coordinate.
+
+### Without Coordinate objects
+
+```
+Latitude.great_circle_distance(start_latitude, start_longitude, end_latitude,
+end_longitude)
+```
 
 Calculates the great circle distance in kilometers between two
 coordinates.
