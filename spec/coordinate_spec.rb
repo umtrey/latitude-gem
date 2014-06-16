@@ -41,6 +41,11 @@ describe Coordinate do
         expect(coordinate.latitude).to eq(-10.5)
       end
 
+      it "should handle spaces around things" do
+        coordinate.latitude = "  10.5   N  "
+        expect(coordinate.latitude).to eq(10.5)
+      end
+
       it "should throw an exception if given E or W as a direction for latitude" do
         expect { coordinate.latitude = "10 E" }.to raise_error(ArgumentError)
         expect { coordinate.latitude = "10 W" }.to raise_error(ArgumentError)
@@ -59,6 +64,47 @@ describe Coordinate do
       it "should throw an exception if given N or S as a direction for longitude" do
         expect { coordinate.longitude = "10 N" }.to raise_error(ArgumentError)
         expect { coordinate.longitude = "10 S" }.to raise_error(ArgumentError)
+      end
+    end
+
+    describe "parsing degrees minutes and seconds" do
+      it "should take simple degrees input and set as decimal" do
+        coordinate.latitude = "50°"
+        expect(coordinate.latitude).to eq(50)
+
+        coordinate.longitude = "10.5 °"
+        expect(coordinate.longitude).to eq(10.5)
+      end
+
+      it "should take degrees and minutes" do
+        coordinate.latitude = "50° 0'"
+        expect(coordinate.latitude).to eq(50)
+
+        coordinate.latitude = "50° 0′"
+        expect(coordinate.latitude).to eq(50)
+      end
+
+      it "should convert minutes to 1/60ths of degrees" do
+        coordinate.latitude = "50° 30'"
+        expect(coordinate.latitude).to eq(50.5)
+      end
+
+      it "should take degrees, minutes, and seconds" do
+        coordinate.latitude = "50° 0' 0\""
+        expect(coordinate.latitude).to eq(50)
+
+        coordinate.latitude = "50° 0' 0″"
+        expect(coordinate.latitude).to eq(50)
+      end
+
+      it "should take degrees and seconds" do
+        coordinate.latitude = "50° 0\""
+        expect(coordinate.latitude).to eq(50)
+      end
+
+      it "should convert seconds to 1/60ths of minutes" do
+        coordinate.latitude = "50° 0' 36\""
+        expect(coordinate.latitude).to eq(50.01)
       end
     end
   end
