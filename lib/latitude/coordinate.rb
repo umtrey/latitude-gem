@@ -22,6 +22,24 @@ class Coordinate
     latitude && longitude && (latitude.abs <= 90) && (longitude.abs <= 180)
   end
 
+  def great_circle_distance_to(final_coordinate)
+    Vincenty.great_circle_distance(latitude, longitude,
+                                   final_coordinate.latitude,
+                                   final_coordinate.longitude)
+  end
+
+  def initial_bearing_to(final_coordinate)
+    Vincenty.initial_bearing(latitude, longitude,
+                             final_coordinate.latitude,
+                             final_coordinate.longitude)
+  end
+
+  def final_bearing_from(start_coordinate)
+    Vincenty.final_bearing(start_coordinate.latitude,
+                           start_coordinate.longitude,
+                           latitude, longitude)
+  end
+
 private
   def convert_degree_input_to_decimal(input, valid_directions, negative_directions)
     return if input.nil? || (input.is_a?(String) && input.empty?)

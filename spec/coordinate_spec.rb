@@ -140,4 +140,31 @@ describe Coordinate do
       expect(blank_coordinate).to_not be_valid
     end
   end
+
+  describe "#great_circle_distance_to" do
+    it "should call the vincenty formulae to calculate the great circle distances" do
+      expect(Vincenty).to receive(:great_circle_distance).with(10, 20, 30, 40)
+      start_coordinate = Coordinate.new(:latitude => 10, :longitude => 20)
+      end_coordinate = Coordinate.new(:latitude => 30, :longitude => 40)
+      start_coordinate.great_circle_distance_to(end_coordinate)
+    end
+  end
+
+  describe "#initial_bearing_to" do
+    it "should call the vincenty formulae to calculate the initial bearing" do
+      expect(Vincenty).to receive(:initial_bearing).with(10, 20, 30, 40)
+      start_coordinate = Coordinate.new(:latitude => 10, :longitude => 20)
+      end_coordinate = Coordinate.new(:latitude => 30, :longitude => 40)
+      start_coordinate.initial_bearing_to(end_coordinate)
+    end
+  end
+
+  describe "#final_bearing_from" do
+    it "should call the vincenty formulae to calculate the final bearing" do
+      expect(Vincenty).to receive(:final_bearing).with(10, 20, 30, 40)
+      start_coordinate = Coordinate.new(:latitude => 10, :longitude => 20)
+      end_coordinate = Coordinate.new(:latitude => 30, :longitude => 40)
+      end_coordinate.final_bearing_from(start_coordinate)
+    end
+  end
 end
